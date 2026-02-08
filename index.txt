@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>IP確認テスト</title>
+</head>
+<body>
+  <h1>アクセスログ取得テスト</h1>
+  <p>このページにアクセスするとIPが記録されます。</p>
+</body>
+</html>
