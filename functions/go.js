@@ -1,30 +1,16 @@
 export async function onRequest({ request, env }) {
-  // IP取得
-  const ip =
-    request.headers.get("CF-Connecting-IP") ??
-    "unknown";
-
-  const ua =
-    request.headers.get("User-Agent") ??
-    "unknown";
-
+  const ip = request.headers.get("CF-Connecting-IP") || "unknown";
   const time = new Date().toISOString();
 
-  // 一意なキー（安全版）
+  // KV が正しくバインドされているか確認
+  if (!env.ACCESS_LOGS) {
+    return new Response("KV binding missing", { status: 500 });
+  }
+
   const key = `${time}-${Math.random().toString(36).slice(2)}`;
 
-  // ログ内容
-  const log = {
-    time,
-    ip,
-    ua,
-    path: new URL(request.url).pathname
-  };
+  await env.ACCESS_LOGS.put(key, ip);
 
-  // KVに保存
-  await env.ACCESS_LOGS.put(key, JSON.stringify(log));
-
-  // 転送（302 Temporary Redirect）
   return Response.redirect(
     "https://www.google.com/maps/search/%E6%96%B0%E6%BD%9F%E9%A7%85/",
     302
