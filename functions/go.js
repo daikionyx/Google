@@ -26,7 +26,7 @@ export async function onRequest({ request, env }) {
 
   // 転送（302 Temporary Redirect）
   return Response.redirect(
-    "https://www.google.com",
+    "https://www.google.com/maps/search/%E6%96%B0%E6%BD%9F%E9%A7%85/",
     302
   );
 }
